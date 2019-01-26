@@ -24,10 +24,20 @@ public:
 
 	virtual void Tick(float DeltaTime) override;
 
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ScreenAimingPosition)
+	float CrossHairXLocation = 0.5f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ScreenAimingPosition)
+	float CrossHairYLocation = 0.33333f;
+
 private:
+
+	FVector2D ScreenLocation;
 
 	ATank* GetControlledTank() const;
 
 	void AimTowardsCrosshair();
 
+	bool GetSightRayHitLocation(FVector& OutHitLocation) const;
 };
