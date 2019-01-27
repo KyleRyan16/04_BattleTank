@@ -2,6 +2,7 @@
 
 #pragma once
 #include "Tank.h"
+#include "Engine/World.h"
 #include "BattleTank.h"
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
@@ -31,6 +32,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ScreenAimingPosition)
 	float CrossHairYLocation = 0.33333f;
 
+	UPROPERTY(EditAnywhere)
+	float LineTraceRange = 1000000;
+
 private:
 
 	FVector2D ScreenLocation;
@@ -40,4 +44,8 @@ private:
 	void AimTowardsCrosshair();
 
 	bool GetSightRayHitLocation(FVector& OutHitLocation) const;
+
+	bool GetAimDirection(FVector2D ScreenLocation, FVector& OutAimDirection) const;
+
+	bool GetAimVectorHitLocation(FVector AimDirection, FVector& HitLocation) const;
 };

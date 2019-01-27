@@ -3,6 +3,9 @@
 #include "TankAIController.h"
 
 
+
+
+
 void ATankAIController::BeginPlay()
 {
 	Super::BeginPlay();
@@ -26,6 +29,23 @@ void ATankAIController::BeginPlay()
 	}
 
 
+
+}
+
+void ATankAIController::Tick(float DeltaTime)
+{
+
+	if (GetPlayerTank())
+	{
+		// TODO Move towards the player
+
+		// Aim towards the player
+		GetControlledTank()->AimAt(GetPlayerTank()->GetActorLocation());
+
+		// TODO Fire if ready
+	}
+
+	
 
 }
 
