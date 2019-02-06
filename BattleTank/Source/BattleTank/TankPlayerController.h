@@ -1,7 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
-#include "Tank.h"
 #include "Engine/World.h"
 #include "BattleTank.h"
 #include "CoreMinimal.h"
@@ -14,6 +13,9 @@
 /**
  * 
  */
+
+class ATank;
+
 UCLASS()
 class BATTLETANK_API ATankPlayerController : public APlayerController
 {

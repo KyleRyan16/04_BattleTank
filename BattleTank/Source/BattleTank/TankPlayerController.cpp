@@ -1,6 +1,8 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "TankPlayerController.h"
+#include "Tank.h"
+
 
 
 void ATankPlayerController::BeginPlay()
@@ -40,8 +42,10 @@ void ATankPlayerController::AimTowardsCrosshair()
 	FVector HitLocation; // Out parameter
 	if (GetSightRayHitLocation(HitLocation)) // has "side-effect", is going to line trace
 	{
-		GetControlledTank()->AimAt(HitLocation);
 
+		ATank* ThisTank = GetControlledTank();
+
+		ThisTank->AimAt(HitLocation, ThisTank->LaunchSpeed);
 	}
 }
 
@@ -59,9 +63,11 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector& OutHitLocation) cons
 	{
 		// Send line trace along that AimDirection, and see what we hit (up to a max range)
 		GetAimVectorHitLocation(AimDirection, OutHitLocation);
+		
+		return true;
 	}
 
-	return true;
+	return false;
 }
 
 bool ATankPlayerController::GetAimVectorHitLocation(FVector AimDirection, FVector& HitLocation) const
@@ -86,8 +92,6 @@ bool ATankPlayerController::GetAimVectorHitLocation(FVector AimDirection, FVecto
 	}
 	HitLocation = FVector(0);
 	return false; // line trace didn't succeed
-
-	return HitResult.IsValidBlockingHit();
 }
 
 bool ATankPlayerController::GetAimDirection(FVector2D ScreenLocation, FVector& OutAimDirection) const
