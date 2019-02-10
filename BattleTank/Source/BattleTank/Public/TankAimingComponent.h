@@ -7,6 +7,7 @@
 #include "GameFramework/Actor.h"
 #include "Components/StaticMeshComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "GameFramework/Pawn.h"
 #include "TankAimingComponent.generated.h"
 
  // forward declaration
@@ -31,6 +32,7 @@ public:
 
 private:	
 
+	
 	UTankBarrel* Barrel = nullptr;
 
 	void MoveBarrel(FVector AimDirection);

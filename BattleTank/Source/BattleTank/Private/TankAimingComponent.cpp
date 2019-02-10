@@ -3,12 +3,15 @@
 #include "TankAimingComponent.h"
 #include "TankBarrel.h"
 
+
 // Sets default values for this component's properties
 UTankAimingComponent::UTankAimingComponent()
 {
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
+
+
 
 	// ...
 }
@@ -45,7 +48,7 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 		
 		MoveBarrel(AimDirection);
 		float Time = GetWorld()->GetTimeSeconds();
-		UE_LOG(LogTemp, Warning, TEXT("%f : Aiming at %s "), Time, *AimDirection.ToString());
+		//UE_LOG(LogTemp, Warning, TEXT("%f : Aiming at %s "), Time, *AimDirection.ToString());
 
 		
 	}
@@ -64,6 +67,9 @@ void UTankAimingComponent::MoveBarrel(FVector AimDirection)
 	auto DeltaRotator = AimAsRotator - BarrelRotator;
 
 
-	Barrel->Elevate(5);
+	Barrel->Elevate(DeltaRotator.Pitch);
+
+
+	UE_LOG(LogTemp, Warning, TEXT("Current pitch: %f "), BarrelRotator.Pitch);
 
 }

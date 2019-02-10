@@ -22,7 +22,7 @@ public:
 	void SetBarrelReference(UTankBarrel* BarrelToSet);
 
 	UPROPERTY(EditAnywhere, Category = Firing)
-	float LaunchSpeed = 100000.f; // TODO find sensible firing speed
+	float LaunchSpeed = 10000.f; // TODO find sensible firing speed
 	
 
 protected:
