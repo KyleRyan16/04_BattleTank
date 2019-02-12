@@ -12,6 +12,7 @@
 
  // forward declaration
 class UTankBarrel;
+class ATank;
 
 // Hold Barrels porperties
 UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
@@ -29,6 +30,7 @@ public:
 
 	// TODO add SetTurretReference
 
+	ATank* Tank = nullptr;
 
 private:	
 

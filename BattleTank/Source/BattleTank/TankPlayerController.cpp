@@ -45,7 +45,7 @@ void ATankPlayerController::AimTowardsCrosshair()
 
 		ATank* ThisTank = GetControlledTank();
 
-		ThisTank->AimAt(HitLocation, ThisTank->LaunchSpeed);
+		ThisTank->AimAt(HitLocation);
 	}
 }
 
