@@ -12,6 +12,7 @@
 
  // forward declaration
 class UTankBarrel;
+class UTankTurret;
 class ATank;
 
 // Hold Barrels porperties
@@ -24,7 +25,7 @@ public:
 	// Sets default values for this component's properties
 	UTankAimingComponent();
 
-	void SetBarrelReference(UTankBarrel* BarrelToSet);
+	void SetAimingReference(UTankBarrel* BarrelToSet, UTankTurret * TurretToSet);
 
 	void AimAt(FVector HitLocation, float LaunchSpeed);
 
@@ -37,5 +38,9 @@ private:
 	
 	UTankBarrel* Barrel = nullptr;
 
+	UTankTurret* Turret = nullptr;
+
 	void MoveBarrel(FVector AimDirection);
+
+	void MoveTurret(FVector AimDirection);
 };

@@ -8,6 +8,7 @@
 
 // Forward Declaration
 class UTankAimingComponent;
+class UTankTurret;
 class UTankBarrel;
 
 UCLASS()
@@ -20,12 +21,14 @@ public:
 	void AimAt(FVector HitLocation);
 
 	UFUNCTION(BlueprintCallable, Category = Setup)
-	void SetBarrelReference(UTankBarrel* BarrelToSet);
+	void SetAimingReference(UTankBarrel* BarrelToSet, UTankTurret * TurretToSet);
 
 	UPROPERTY(EditAnywhere, Category = Firing)
 	float LaunchSpeed = 10000.f; // TODO find sensible firing speed
 
 	UTankBarrel* Barrel = nullptr;
+
+	UTankTurret* Turret = nullptr;
 	
 
 protected:

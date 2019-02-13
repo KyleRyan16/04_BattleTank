@@ -2,6 +2,7 @@
 
 #include "TankAimingComponent.h"
 #include "TankBarrel.h"
+#include "TankTurret.h"
 #include "Tank.h"
 
 
@@ -16,9 +17,10 @@ UTankAimingComponent::UTankAimingComponent()
 	// ...
 }
 
-void UTankAimingComponent::SetBarrelReference(UTankBarrel* BarrelToSet)
+void UTankAimingComponent::SetAimingReference(UTankBarrel* BarrelToSet, UTankTurret * TurretToSet)
 {
 	Barrel = BarrelToSet;
+	Turret = TurretToSet;
 }
 
 void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
@@ -27,6 +29,11 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 		
 		UE_LOG(LogTemp, Warning, TEXT("no reference to barrel"));
 		return; }
+	if (!Turret) {
+
+		UE_LOG(LogTemp, Warning, TEXT("no reference to turret"));
+		return;
+	}
 
 	FVector LaunchVelocity(0);
 	FVector StartLocation = Barrel->GetSocketLocation(FName("Projectile"));
@@ -48,7 +55,7 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 	if (bHaveAimSolution && HitLocation != FVector(0)) // when raycast fails in ATankPlayerController
 	{
 		auto AimDirection = LaunchVelocity.GetSafeNormal();
-		
+		MoveTurret(AimDirection);
 		MoveBarrel(AimDirection);
 		float Time = GetWorld()->GetTimeSeconds();
 		//UE_LOG(LogTemp, Warning, TEXT("%f : Aiming at %s "), Time, *AimDirection.ToString());
@@ -72,7 +79,15 @@ void UTankAimingComponent::MoveBarrel(FVector AimDirection)
 
 	Barrel->Elevate(DeltaRotator.Pitch);
 
+}
 
-	UE_LOG(LogTemp, Warning, TEXT("Current pitch: %f "), BarrelRotator.Pitch);
+void UTankAimingComponent::MoveTurret(FVector AimDirection)
+{
+	auto TurretRotator = Turret->GetForwardVector().Rotation();
+	auto AimAsRotator = AimDirection.Rotation();
+	auto DeltaRotator = AimAsRotator - TurretRotator;
 
+	Turret->Rotate(DeltaRotator.Yaw);
+
+	UE_LOG(LogTemp, Warning, TEXT("Current Yaw: %f "), TurretRotator.Yaw);
 }
