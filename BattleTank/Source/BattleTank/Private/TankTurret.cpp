@@ -4,14 +4,12 @@
 
 void UTankTurret::Rotate(float RelativeSpeed)
 {
-	RelativeSpeed = FMath::Clamp<float>(RelativeSpeed, -1, +1);
+	RelativeSpeed = FMath::Clamp<float>(RelativeSpeed, -1, +1); // To what degree we are aiming at relative to current rotator
 
-	auto AzimuthChange = RelativeSpeed * MaxDegreesPerSecond;
-	auto Azimuth = RelativeRotation.Yaw + AzimuthChange * GetWorld()->DeltaTimeSeconds;;
+	auto RotationChange = RelativeSpeed * MaxDegreesPerSecond;
+	auto Rotation = RelativeRotation.Yaw + RotationChange * GetWorld()->DeltaTimeSeconds;
 
-	SetRelativeRotation(FRotator(0, Azimuth, 0));
-
-	UE_LOG(LogTemp, Warning, TEXT("%f"), RelativeSpeed);
+	SetRelativeRotation(FRotator(0, Rotation, 0));
 
 	return;
 }

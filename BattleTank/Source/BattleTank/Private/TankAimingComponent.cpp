@@ -12,7 +12,7 @@ UTankAimingComponent::UTankAimingComponent()
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
 	bWantsBeginPlay = true;
-	PrimaryComponentTick.bCanEverTick = true;
+
 
 	// ...
 }
@@ -52,21 +52,16 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 			0,
 			ESuggestProjVelocityTraceOption::DoNotTrace
 	);
-	if (bHaveAimSolution && HitLocation != FVector(0)) // when raycast fails in ATankPlayerController
+	if (bHaveAimSolution && HitLocation != FVector(0)) // HitLocation(0) = when raycast fails in ATankPlayerController
 	{
-		auto AimDirection = LaunchVelocity.GetSafeNormal();
+		auto AimDirection = LaunchVelocity.GetSafeNormal(); // want direction not magnitude of
 		MoveTurret(AimDirection);
 		MoveBarrel(AimDirection);
 		float Time = GetWorld()->GetTimeSeconds();
-		//UE_LOG(LogTemp, Warning, TEXT("%f : Aiming at %s "), Time, *AimDirection.ToString());
 
 		
 	}
-	else
-	{
-		float Time = GetWorld()->GetTimeSeconds();
-		UE_LOG(LogTemp, Warning, TEXT("%f : No aim solve found"), Time);
-	}
+	// If no solution found do nothing
 }
 
 void UTankAimingComponent::MoveBarrel(FVector AimDirection)
@@ -88,6 +83,4 @@ void UTankAimingComponent::MoveTurret(FVector AimDirection)
 	auto DeltaRotator = AimAsRotator - TurretRotator;
 
 	Turret->Rotate(DeltaRotator.Yaw);
-
-	UE_LOG(LogTemp, Warning, TEXT("Current Yaw: %f "), TurretRotator.Yaw);
 }
