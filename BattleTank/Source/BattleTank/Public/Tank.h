@@ -23,12 +23,12 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Setup)
 	void SetAimingReference(UTankBarrel* BarrelToSet, UTankTurret * TurretToSet);
 
-	UPROPERTY(EditAnywhere, Category = Firing)
+	UPROPERTY(EditDefaultsOnly, Category = Firing)
 	float LaunchSpeed = 10000.f; // TODO find sensible firing speed
 
 
 	UFUNCTION(BlueprintCallable, Category = Controls)
-	void Fire(FVector LaunchVelocity);
+	void Fire();
 	
 
 protected:
@@ -49,6 +49,12 @@ private:
 
 	UTankBarrel* Barrel = nullptr;
 
-	UPROPERTY(EditAnywhere, Category = Setup)
+	UPROPERTY(EditDefaultsOnly, Category = Setup)
 	TSubclassOf<AProjectile> ProjectileBlueprint;  
+
+	UPROPERTY(EditDefaultsOnly, Category = Firing)
+	float ReloadTimeInSeconds = 3;
+
+	double LastFireTime = 0;
+
 };

@@ -12,55 +12,25 @@ void ATankAIController::BeginPlay()
 {
 	Super::BeginPlay();
 
-	if (!GetControlledTank())
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Error retrieving tank name!"), *GetControlledTank()->GetName());
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("%s reporting for AI duty!"), *GetControlledTank()->GetName());
-	}
-	
-	if (!GetPlayerTank())
-	{
-		UE_LOG(LogTemp, Warning, TEXT("AI can't find Players possessed pawn"), *GetPlayerTank()->GetName());
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("AI has found Player possessing %s"), *GetPlayerTank()->GetName());
-	}
-
-
-
 }
 
 void ATankAIController::Tick(float DeltaTime)
 {
+	auto PlayerTank = Cast<ATank>(GetWorld()->GetFirstPlayerController()->GetPawn());
+	auto ControlledTank = Cast<ATank>(GetPawn());
 
-	if (GetPlayerTank())
+	if (PlayerTank)
 	{
-		ATank* PlayerTank = GetPlayerTank();
 		// TODO Move towards the player
 
 		// Aim towards the player
-		GetControlledTank()->AimAt(PlayerTank->GetActorLocation());
+		ControlledTank->AimAt(PlayerTank->GetActorLocation());
 
-		// TODO Fire if ready
+		// Fire Every frame
+		ControlledTank->Fire();
 	}
 
 	
 
 }
 
-
-ATank* ATankAIController::GetControlledTank() const
-{
-	return Cast<ATank>(GetPawn());
-}
-
-ATank* ATankAIController::GetPlayerTank() const
-{
-	auto PlayerPawn = GetWorld()->GetFirstPlayerController()->GetPawn();
-	if (!PlayerPawn){return nullptr;}
-	return Cast<ATank>(PlayerPawn);
-}
